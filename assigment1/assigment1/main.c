@@ -11,14 +11,31 @@ void Modify_Value(FILE *Fpointer, long** Arry2D);
 
 int main(void) {
 	char Modify_Dicide_Value;
-	unsigned int i, Row, Col, Scanf_Return = 0;
+	char* buffer,* FileName;
+	unsigned int i, Row, Col, Scanf_Return, FileNameSize;
 	float Input_Row, Input_Col;
 	long **Arry2D;
 	FILE *Fpointer;
 	
-	system("mode con:cols=50 lines=30");
+	system("mode con:cols=70 lines=50");
 	// todo
 	// 콘솔 크기 생각;
+	printf("input file name \n");
+	buffer = (char*)malloc(sizeof(char) * 100);
+	scanf_s("%s", buffer, sizeof(char) * 100);
+	getchar();
+	for (i = 0; i < 100; i++) {
+		if (buffer[i] == '\0') break;
+	}
+	FileNameSize = i;
+	FileName = (char*)malloc(sizeof(char) * FileNameSize);
+
+	for (i = 0; i <= FileNameSize; i++) {
+		buffer[i] = FileName[i];
+	}
+	free(buffer);
+
+	fopen_s(&Fpointer, FileName, "w+");
 
 	printf("input Row and Col \n");
 	Input_Exception_Handling(&Input_Row, &Input_Col);
@@ -33,9 +50,6 @@ int main(void) {
 	
 	Print_Matrix(Arry2D, Row, Col);
 
-	fopen_s(&Fpointer,"data.txt", "w+");
-	Print_Matrix_File(Fpointer, Arry2D,Row, Col);
-	
 	printf("do you want to modify table???? (y / n) \n");
 	scanf_s("%c", &Modify_Dicide_Value, sizeof(char));
 
@@ -43,17 +57,19 @@ int main(void) {
 		Modify_Value(Fpointer, Arry2D);
 		Print_Matrix_File(Fpointer, Arry2D, Row, Col);
 		fclose(Fpointer);
-		system("pause");
+
 	}
 
 	else if(Modify_Dicide_Value == 'n' || Modify_Dicide_Value == 'N'){
+		printf("잘가 \n");
+		Print_Matrix_File(Fpointer, Arry2D, Row, Col);
 		for (i = 0; i < Row; i++) free(Arry2D[i]);
 		free(Arry2D);
-		printf("잘가 \n");
 		fclose(Fpointer);
-		system("pause");
+		
 		return 0;
 	}
+	system("pause");
 	return 0;
 }
 
@@ -72,14 +88,15 @@ void Input_Exception_Handling(float *Input_Row, float *Input_Col) {
 	unsigned int Scanf_Return, temp;
 
 	for (; 1;) {
-		Scanf_Return = scanf_s("%f %f", &Input_Row, &Input_Col);
+		Scanf_Return = scanf_s("%f %f", Input_Row, Input_Col);
 		while ((temp = getchar()) != EOF && temp != '\n'); // todo이 구문 분석
+
 		if (Scanf_Return == 2) {
-			if (Input_Row <= 0 || Input_Col <= 0) {
+			if (*Input_Row <= 0 || *Input_Col <= 0) {
 				printf("you must input natural number \n");
 				continue;
 			}
-			else if ((Input_Row - (int)Input_Row) != 0 || (Input_Col - (int)Input_Col) != 0) {
+			else if ((*Input_Row - (int)*Input_Row) != 0 || (*Input_Col - (int)*Input_Col) != 0) {
 				printf("you must input natural number \n");
 				continue;
 			}
