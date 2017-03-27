@@ -19,6 +19,7 @@ void Print_Matrix_File(FILE *Fpointer, double** Matrix, int Row, int Col);
 int ModeSelect();
 void ModifyMode();
 void GetFileList();
+void Scanf_File(FILE *Fpointer, double** Matrix, int Row, int Col);
 void MakeMode();
 char* Make_File_Name();
 
@@ -32,7 +33,7 @@ int main(void) {
 	system("mode con:cols=100 lines=40");
 	
 	gotoxy(MidX - 13, MidY);
-	printf("hello i'm matrix madify program");
+	printf("hello i'm matrix modify program");
 	gotoxy(MidX - 14 , MidY + 1);
 	printf("if you wnat to start press anykey");
 	gotoxy(MidX - 12, MidY + 2);
@@ -47,7 +48,7 @@ int main(void) {
 		Mode = ModeSelect();
 		if (Mode == 1) {
 			system("cls");
-			GetFileList();
+			ModifyMode();
 			getch();
 			continue;
 		}
@@ -98,14 +99,16 @@ void Size_Input_EH(float *Input_Row, float *Input_Col) {
 		if (Scanf_Return == 2) {
 			if (*Input_Row <= 0 || *Input_Col <= 0) {
 				Pos++;
-				gotoxy(MidX, MidY + Pos);
+				gotoxy(MidX - 12, MidY + Pos);
 				printf("you must input natural number \n");
+				Pos++;
 				continue;
 			}
 			else if ((*Input_Row - (int)*Input_Row) != 0 || (*Input_Col - (int)*Input_Col) != 0) {
 				Pos++;
-				gotoxy(MidX, MidY  + Pos);
+				gotoxy(MidX - 12, MidY  + Pos);
 				printf("you must input natural number \n");
+				Pos++;
 				continue;
 			}
 			else break;
@@ -113,8 +116,9 @@ void Size_Input_EH(float *Input_Row, float *Input_Col) {
 		}
 		else {
 			Pos++;
-			gotoxy(MidX, MidY + Pos);
+			gotoxy(MidX - 12, MidY + Pos);
 			printf("you must input natural number \n");
+			Pos++;
 			continue;
 		}
 		Pos++;
@@ -239,18 +243,30 @@ char* Make_File_Name() {
 void ModifyMode() {
 	FILE *Fpointer;
 	char * Path;
-	int Row, Col;
+	int i,j,Row, Col;
+	double **Matrix;
 
 	GetFileList();
 	gotoxy(MidX - 2, MidY);
 	Path = Make_File_Name();
-	fopen_s(&Fpointer, Path, "w+");
+	fopen_s(&Fpointer, Path, "r");
 	fscanf_s(Fpointer, "%d %d\n", &Row, &Col);
-	printf("%d %d");
-	getch();
+	
+	Matrix = Make_Matrix(Row, Col);
+	Scanf_File(Fpointer,  Matrix,Row,Col);
+	system("cls");
+	gotoxy(MidX - 2,0);
+	printf("%s file value:\n",Path);
+	Print_Matrix(Matrix, Row, Col);
+	
+
+
+
+
+
+
+
 	// todo
-	//파일에서 행렬값 받아와 동적할당
-	//동적 할당후 보여주기
 	// 어느곳에 있는 벨류 고칠꺼냐 물보고
 	// row & col 입력하라하기
 	// 수정값받아 다시 쓰기
