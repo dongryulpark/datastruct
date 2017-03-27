@@ -8,18 +8,16 @@
 #define MidY 17
 
 typedef struct _finddata_t FILE_SERCH;
-
-////////////////////////////////////////
 void gotoxy(int x, int y);
 double** Make_Matrix(int Row, int Col);
 void Delete_Matrix(int Row, double** Matrix);
 void Size_Input_EH(float *Input_Row, float *Input_Col); 
 void Pos_Input_EH(float *Input_Row, float *Input_Col, int Row, int Col);
+void Value_Input_EH(double** Matrix, int i, int j);
 void Input_Matrix(double** Matrix, int Row, int Col);
 void Print_Matrix(double** Matrix, int Row, int Col);
 void Print_Matrix_File(FILE *Fpointer, double** Matrix, int Row, int Col);
 void Scanf_File(FILE *Fpointer, double** Matrix, int Row, int Col);
-///////////////////////////////////////////////////////
 int ModeSelect();
 int ModifyMode();
 void GetFileList();
@@ -71,13 +69,17 @@ int main(void) {
 	
 	return 0;
 }
-
+//////////////////////////////////////////////////////////////////////////////////
+// gotoxy(int x, int y) : 콘솔의 지정 위치로 이동하는 함수이다.
+//////////////////////////////////////////////////////////////////////////////////
 void gotoxy(int x, int y){ 
 	COORD Pos = { x - 1, y - 1 };
 
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
 }
-
+//////////////////////////////////////////////////////////////////////////////////
+// gotoxy(int x, int y) : 콘솔의 지정 위치로 이동하는 함수이다.
+//////////////////////////////////////////////////////////////////////////////////
 double** Make_Matrix(int Row, int Col) {
 	int i;
 	double **Matrix;
@@ -174,8 +176,23 @@ void Pos_Input_EH(float *Input_Row, float *Input_Col, int Row, int Col) {
 	}
 }
 
+void Value_Input_EH(double** Matrix, int i, int j) {
+	int temp;
+
+	for (; 1;) {
+		if (scanf_s("%lf", &Matrix[i][j]) != 1) {
+			while ((temp = getchar()) != EOF && temp != '\n');
+			gotoxy(MidX - 9, MidY + 2);
+			printf("you must input real value");
+			gotoxy(MidX, MidY + 3);
+			continue;
+		}
+		else break;
+	}
+}
+
 void Input_Matrix(double** Matrix, int Row, int Col) {
-	int i, j;
+	int i, j, pos = 2;
 
 	for (i = 0; i < Row; i++) {
 		for (j = 0; j < Col; j++) {
@@ -184,7 +201,9 @@ void Input_Matrix(double** Matrix, int Row, int Col) {
 			gotoxy(MidX - 2, MidY + 1);
 			printf("%d X %d", i+1, j+1);
 			gotoxy(MidX, MidY + 2);
-			scanf_s("%lf", &Matrix[i][j]);
+			
+			Value_Input_EH(Matrix, i,j);
+
 			system("cls");
 		}
 	}
@@ -227,9 +246,10 @@ int ModeSelect() {
 	printf("2.make  matrix");
 	gotoxy(MidX - 8, MidY + 3);
 	printf("3.view  matrix");
+	gotoxy(MidX - 8, MidY + 4);
 	for (; 1;) {
 		Mode = getch();
-		gotoxy(MidX - 11, MidY + 3 + pos);
+		gotoxy(MidX - 11, MidY + 4 + pos);
 		pos++;
 		if (Mode == 27) return 4;
 		else if (Mode > 51 || Mode <= 48) {
@@ -245,7 +265,6 @@ int ModifyMode() {
 	FILE *Fpointer;
 	char * Path;
 	int Row, Col;
-
 	double **Matrix;
 
 	GetFileList();
@@ -261,7 +280,9 @@ int ModifyMode() {
 	if (fscanf_s(Fpointer, "%d %d", &Row, &Col) != 2) {
 		gotoxy(MidX - 13, MidY + 4);
 		printf("this File is damaged");
+		return 0;
 	}
+
 	Matrix = Make_Matrix(Row, Col);
 	Scanf_File(Fpointer, Matrix, Row, Col);
 	system("cls");
@@ -377,6 +398,7 @@ char* Make_File_Name() {
 
 	return Path;
 }
+
 int ViewMode() {
 	FILE *Fpointer;
 	char * Path;
