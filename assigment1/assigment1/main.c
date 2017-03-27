@@ -12,7 +12,8 @@ typedef struct _finddata_t FILE_SERCH;
 void gotoxy(int x, int y);
 double** Make_Matrix(int Row, int Col);
 void Delete_Matrix(int Row, double** Matrix);
-void Size_Input_EH(float *Input_Row, float *Input_Col);
+void Size_Input_EH(float *Input_Row, float *Input_Col); 
+void Pos_Input_EH(float *Input_Row, float *Input_Col, int Row, int Col);
 void Input_Matrix(double** Matrix, int Row, int Col);
 void Print_Matrix(double** Matrix, int Row, int Col);
 void Print_Matrix_File(FILE *Fpointer, double** Matrix, int Row, int Col);
@@ -23,8 +24,9 @@ void Scanf_File(FILE *Fpointer, double** Matrix, int Row, int Col);
 void MakeMode();
 char* Make_File_Name();
 
-void Modify_Value(FILE *Fpointer, double** Arry2D);
-void Modify_Mode(FILE *Fpointer, double** Arry2D, int Row, int Col);
+void Modify_Value(FILE *Fpointer, double** Matrix, int Row, int Col);
+
+//void Modify_Mode(FILE *Fpointer, double** Arry2D, int Row, int Col);
 
 
 int main(void) {
@@ -125,6 +127,59 @@ void Size_Input_EH(float *Input_Row, float *Input_Col) {
 	}
 }
 
+void Pos_Input_EH(float *Input_Row, float *Input_Col, int Row, int Col) {
+	unsigned int Scanf_Return, temp, Pos = 1;
+	for (; 1;) {
+		gotoxy(MidX, MidY + Pos);
+		Scanf_Return = scanf_s("%f %f", Input_Row, Input_Col);
+		while ((temp = getchar()) != EOF && temp != '\n');
+		if (Scanf_Return == 2) {
+			if (*Input_Row <= 0 || *Input_Col <= 0) {
+				Pos++;
+				gotoxy(MidX - 10, MidY + Pos);
+				printf("you must input natural number \n");
+				Pos++;
+				continue;
+			}
+			else if ((*Input_Row - (int)*Input_Row) != 0 || (*Input_Col - (int)*Input_Col) != 0) {
+				Pos++;
+				gotoxy(MidX - 10, MidY + Pos);
+				printf("you must input natural number \n");
+				Pos++;
+				continue;
+			}
+			else if ( *Input_Row > Row || *Input_Row <= 0) {
+				Pos++;
+				gotoxy(MidX - 10, MidY + Pos);
+				printf("you must input range of Matrix \n");
+				Pos++;
+				continue;
+			}
+			else if (*Input_Col > Col || *Input_Col <= 0) {
+				Pos++;
+				gotoxy(MidX - 10, MidY + Pos);
+				printf("you must input range of Matrix \n");
+				Pos++;
+				continue;
+			}
+			else { 
+				*Input_Col--;
+				*Input_Row--;
+				break; 
+			}
+
+		}
+		else {
+			Pos++;
+			gotoxy(MidX - 12, MidY + Pos);
+			printf("you must input natural number \n");
+			Pos++;
+			continue;
+		}
+		Pos++;
+	}
+}
+
 void Input_Matrix(double** Matrix, int Row, int Col) {
 	int i, j;
 
@@ -140,6 +195,14 @@ void Input_Matrix(double** Matrix, int Row, int Col) {
 		}
 	}
 	getchar(); //clear buffer
+}
+
+void Scanf_File(FILE *Fpointer, double** Matrix, int Row, int Col) {
+	int i, j;
+	for (i = 0; i < Row; i++) {
+		for (j = 0; j < Col; j++) fscanf_s(Fpointer, "%lf ", &Matrix[i][j]);
+	}
+
 }
 
 void Print_Matrix(double** Matrix, int Row, int Col) {
@@ -213,8 +276,8 @@ void MakeMode() {
 }
 
 char* Make_File_Name() {
-	char txt[] = ".txt";
 	char* FileName, *Path;
+	char txt[] = ".txt";
 	int i, FileNameSize;
 
 	FileName = (char*)malloc(sizeof(char) * 100);
@@ -243,7 +306,8 @@ char* Make_File_Name() {
 void ModifyMode() {
 	FILE *Fpointer;
 	char * Path;
-	int i,j,Row, Col;
+	int Row, Col;
+
 	double **Matrix;
 
 	GetFileList();
@@ -253,12 +317,13 @@ void ModifyMode() {
 	fscanf_s(Fpointer, "%d %d\n", &Row, &Col);
 	
 	Matrix = Make_Matrix(Row, Col);
-	Scanf_File(Fpointer,  Matrix,Row,Col);
+	Scanf_File(Fpointer, Matrix,Row,Col);
 	system("cls");
 	gotoxy(MidX - 2,0);
 	printf("%s file value:\n",Path);
 	Print_Matrix(Matrix, Row, Col);
-	
+	gotoxy(MidX - 2, MidY);
+	Modify_Value(Fpointer,Matrix, Row, Col);
 
 
 
@@ -292,20 +357,25 @@ void GetFileList() {
 	_findclose(handle);
 }
 
-void Modify_Value(FILE *Fpointer,double** Matrix) {
+void Modify_Value(FILE *Fpointer,double** Matrix, int Row, int Col ) {
 	int M_Row, M_Col;
 	fpos_t filepos = 0;
-	printf("modify mode \n");
-	printf("input row and col \n");
-	scanf_s("%d %d", &M_Row, &M_Col);
 
-	printf("now there is %lf \n", Matrix[M_Row][M_Col]);
-	printf("just input value that you want \n");
+	printf("modify mode ");
+	gotoxy(MidX - 3, MidY);
+	printf("input row and col \n");
+	Pos_Input_EH(&M_Row, &M_Col, Row, Col);
+	gotoxy(MidX - 3, MidY + 2);
+	printf("now there is %lf ", Matrix[M_Row][M_Col]);
+	gotoxy(MidX - 5, MidY + 3);
+	printf("just input value that you want");
+	gotoxy(MidX , MidY + 4);
 	scanf_s("%lf", &Matrix[M_Row][M_Col]);
 	fsetpos(Fpointer, &filepos);
+	Print_Matrix_File(Fpointer, Matrix, Row, Col);
 }
 
-void Modify_Mode( FILE *Fpointer, double** Matrix, int Row, int Col) {
+/*void Modify_Mode( FILE *Fpointer, double** Matrix, int Row, int Col) {
 	int i;
 	char Modify_Dicide_Value;
 	printf("do you want to modify table???? (y / n) \n");
@@ -323,4 +393,4 @@ void Modify_Mode( FILE *Fpointer, double** Matrix, int Row, int Col) {
 		free(Matrix);
 		fclose(Fpointer);
 	}
-}
+}*/
