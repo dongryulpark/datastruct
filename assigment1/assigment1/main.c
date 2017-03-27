@@ -8,29 +8,34 @@
 #define MidY 17
 
 typedef struct _finddata_t FILE_SERCH;
+
 void gotoxy(int x, int y);
+
 double** Make_Matrix(int Row, int Col);
 void Delete_Matrix(int Row, double** Matrix);
+
 void Size_Input_EH(float *Input_Row, float *Input_Col); 
 void Pos_Input_EH(float *Input_Row, float *Input_Col, int Row, int Col);
 void Value_Input_EH(double** Matrix, int i, int j);
+
 void Input_Matrix(double** Matrix, int Row, int Col);
 void Print_Matrix(double** Matrix, int Row, int Col);
 void Print_Matrix_File(FILE *Fpointer, double** Matrix, int Row, int Col);
 void Scanf_File(FILE *Fpointer, double** Matrix, int Row, int Col);
+
 int ModeSelect();
 int ModifyMode();
 void GetFileList();
 void Modify_Value(FILE *Fpointer, double** Matrix, int Row, int Col);
 void MakeMode();
+FILE* SelectFopenMode();
 char* Make_File_Name();
 int ViewMode();
 
 int main(void) {
 	int start, Mode;
 	
-	system("mode con:cols=100 lines=40");
-	
+	system("mode con:cols=100 lines=40");	
 	gotoxy(MidX - 13, MidY);
 	printf("hello i'm matrix modify program");
 	gotoxy(MidX - 14 , MidY + 1);
@@ -356,7 +361,11 @@ void MakeMode() {
 	gotoxy(MidX - 3, MidY);
 	printf("make mode");
 	gotoxy(MidX - 7, MidY + 1);
-	printf("input Row and Col");// 규약
+
+	// todo
+	// 바이너리 or 십진 선택
+	
+	printf("input Row and Col");
 	Size_Input_EH(&Input_Row, &Input_Col);
 	Col = (int)Input_Col; Row = (int)Input_Row;
 
@@ -372,6 +381,10 @@ void MakeMode() {
 	free(dir);	
 }
 
+FILE* SelectFopenMode() {
+		
+
+}
 char* Make_File_Name() {
 	char* FileName, *Path;
 	char txt[] = ".txt";
@@ -413,7 +426,7 @@ int ViewMode() {
 	Path = Make_File_Name();
 	if (fopen_s(&Fpointer, Path, "r") != 0) {
 		gotoxy(MidX - 13, MidY + 2);
-		printf("there is no file make file");
+		printf("there is no file in dir");
 		gotoxy(MidX - 13, MidY + 3);
 		return 1;
 	}
