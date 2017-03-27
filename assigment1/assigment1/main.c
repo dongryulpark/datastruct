@@ -74,6 +74,7 @@ int main(void) {
 	
 	return 0;
 }
+
 //////////////////////////////////////////////////////////////////////////////////
 // gotoxy(int x, int y) : 콘솔의 지정 위치로 이동하는 함수이다.
 //////////////////////////////////////////////////////////////////////////////////
@@ -82,8 +83,9 @@ void gotoxy(int x, int y){
 
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
 }
+
 //////////////////////////////////////////////////////////////////////////////////
-// gotoxy(int x, int y) : 콘솔의 지정 위치로 이동하는 함수이다.
+// Make_Matrix(int Row, int Col) : 2차원 동적할당 선언함수.
 //////////////////////////////////////////////////////////////////////////////////
 double** Make_Matrix(int Row, int Col) {
 	int i;
@@ -94,12 +96,18 @@ double** Make_Matrix(int Row, int Col) {
 	return Matrix;
 }
 
+//////////////////////////////////////////////////////////////////////////////////
+// Delete_Matrix(int Row, double** Matrix): 2차원 동적 할당 free함수.
+//////////////////////////////////////////////////////////////////////////////////
 void Delete_Matrix(int Row, double** Matrix) {
 	int i;
 	for (i = 0; i < Row; i++) free(Matrix[i]);
 	free(Matrix);
 }
 
+//////////////////////////////////////////////////////////////////////////////////
+// Delete_Matrix(int Row, double** Matrix): 2차원 동적 할당 free함수.
+//////////////////////////////////////////////////////////////////////////////////
 void Size_Input_EH(float *Input_Row, float *Input_Col) {
 	unsigned int Scanf_Return, temp, Pos = 2;
 	for (; 1;) {
@@ -251,13 +259,14 @@ int ModeSelect() {
 	printf("2.make  matrix");
 	gotoxy(MidX - 8, MidY + 3);
 	printf("3.view  matrix");
-	gotoxy(MidX - 8, MidY + 4);
+	gotoxy(MidX, MidY + 4);
 	for (; 1;) {
 		Mode = getch();
 		gotoxy(MidX - 11, MidY + 4 + pos);
 		pos++;
 		if (Mode == 27) return 4;
 		else if (Mode > 51 || Mode <= 48) {
+
 			printf("you must input 1,2,3");
 			continue;
 		}
@@ -362,9 +371,6 @@ void MakeMode() {
 	printf("make mode");
 	gotoxy(MidX - 7, MidY + 1);
 
-	// todo
-	// 바이너리 or 십진 선택
-	
 	printf("input Row and Col");
 	Size_Input_EH(&Input_Row, &Input_Col);
 	Col = (int)Input_Col; Row = (int)Input_Row;
@@ -381,10 +387,6 @@ void MakeMode() {
 	free(dir);	
 }
 
-FILE* SelectFopenMode() {
-		
-
-}
 char* Make_File_Name() {
 	char* FileName, *Path;
 	char txt[] = ".txt";
