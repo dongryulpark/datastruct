@@ -9,6 +9,7 @@
 
 typedef struct _finddata_t FILE_SERCH;
 
+////////////////////////////////////////
 void gotoxy(int x, int y);
 double** Make_Matrix(int Row, int Col);
 void Delete_Matrix(int Row, double** Matrix);
@@ -18,6 +19,7 @@ void Input_Matrix(double** Matrix, int Row, int Col);
 void Print_Matrix(double** Matrix, int Row, int Col);
 void Print_Matrix_File(FILE *Fpointer, double** Matrix, int Row, int Col);
 void Scanf_File(FILE *Fpointer, double** Matrix, int Row, int Col);
+///////////////////////////////////////////////////////
 int ModeSelect();
 int ModifyMode();
 void GetFileList();
