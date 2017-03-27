@@ -17,17 +17,14 @@ void Pos_Input_EH(float *Input_Row, float *Input_Col, int Row, int Col);
 void Input_Matrix(double** Matrix, int Row, int Col);
 void Print_Matrix(double** Matrix, int Row, int Col);
 void Print_Matrix_File(FILE *Fpointer, double** Matrix, int Row, int Col);
-int ModeSelect();
-void ModifyMode();
-void GetFileList();
 void Scanf_File(FILE *Fpointer, double** Matrix, int Row, int Col);
+int ModeSelect();
+int ModifyMode();
+void GetFileList();
+void Modify_Value(FILE *Fpointer, double** Matrix, int Row, int Col);
 void MakeMode();
 char* Make_File_Name();
-
-void Modify_Value(FILE *Fpointer, double** Matrix, int Row, int Col);
-
-//void Modify_Mode(FILE *Fpointer, double** Arry2D, int Row, int Col);
-
+int ViewMode();
 
 int main(void) {
 	int start, Mode;
@@ -51,6 +48,7 @@ int main(void) {
 		if (Mode == 1) {
 			system("cls");
 			ModifyMode();
+			printf("press anykey for continue");
 			getch();
 			continue;
 		}
@@ -61,8 +59,9 @@ int main(void) {
 			continue;
 		}
 		else if (Mode == 3) {
-			// todo
-			//view
+			ViewMode();
+			printf("press anykey for continue");
+			getch();
 			continue;
 		}
 		else break;
@@ -129,6 +128,7 @@ void Size_Input_EH(float *Input_Row, float *Input_Col) {
 
 void Pos_Input_EH(float *Input_Row, float *Input_Col, int Row, int Col) {
 	unsigned int Scanf_Return, temp, Pos = 1;
+	
 	for (; 1;) {
 		gotoxy(MidX, MidY + Pos);
 		Scanf_Return = scanf_s("%f %f", Input_Row, Input_Col);
@@ -148,14 +148,7 @@ void Pos_Input_EH(float *Input_Row, float *Input_Col, int Row, int Col) {
 				Pos++;
 				continue;
 			}
-			else if ( *Input_Row > Row || *Input_Row <= 0) {
-				Pos++;
-				gotoxy(MidX - 10, MidY + Pos);
-				printf("you must input range of Matrix \n");
-				Pos++;
-				continue;
-			}
-			else if (*Input_Col > Col || *Input_Col <= 0) {
+			else if ( *Input_Row > Row || *Input_Col > Col) {
 				Pos++;
 				gotoxy(MidX - 10, MidY + Pos);
 				printf("you must input range of Matrix \n");
@@ -163,11 +156,10 @@ void Pos_Input_EH(float *Input_Row, float *Input_Col, int Row, int Col) {
 				continue;
 			}
 			else { 
-				*Input_Col--;
-				*Input_Row--;
+				*Input_Col = *Input_Col - 1;
+				*Input_Row = *Input_Row - 1;
 				break; 
 			}
-
 		}
 		else {
 			Pos++;
@@ -223,7 +215,7 @@ void Print_Matrix_File(FILE *Fpointer, double** Matrix, int Row, int Col){
 }
 
 int ModeSelect() {
-	int Mode;
+	int Mode, pos = 1;
 
 	gotoxy(MidX - 7, MidY);
 	printf("select mode");
@@ -233,9 +225,10 @@ int ModeSelect() {
 	printf("2.make  matrix");
 	gotoxy(MidX - 8, MidY + 3);
 	printf("3.view  matrix");
-	gotoxy(MidX, MidY + 4);
 	for (; 1;) {
 		Mode = getch();
+		gotoxy(MidX - 11, MidY + 3 + pos);
+		pos++;
 		if (Mode == 27) return 4;
 		else if (Mode > 51 || Mode <= 48) {
 			printf("you must input 1,2,3");
@@ -244,6 +237,87 @@ int ModeSelect() {
 		else break;
 	}
 	return (Mode - 48);
+}
+
+int ModifyMode() {
+	FILE *Fpointer;
+	char * Path;
+	int Row, Col;
+
+	double **Matrix;
+
+	GetFileList();
+	gotoxy(MidX - 2, MidY);
+	Path = Make_File_Name();
+	if (fopen_s(&Fpointer, Path, "r") != 0) {
+		gotoxy(MidX - 13, MidY + 2);
+		printf("there is no file make file");
+		gotoxy(MidX - 13, MidY + 3);
+		return 0;
+	}
+
+	if (fscanf_s(Fpointer, "%d %d", &Row, &Col) != 2) {
+		gotoxy(MidX - 13, MidY + 4);
+		printf("this File is damaged");
+	}
+	Matrix = Make_Matrix(Row, Col);
+	Scanf_File(Fpointer, Matrix, Row, Col);
+	system("cls");
+	gotoxy(MidX - 2, 0);
+	printf("%s file value:\n", Path);
+	Print_Matrix(Matrix, Row, Col);
+	fclose(Fpointer);
+	fopen_s(&Fpointer, Path, "w+");
+	gotoxy(MidX - 2, MidY);
+	Modify_Value(Fpointer, Matrix, Row, Col);
+
+	fclose(Fpointer);
+	free(Path);
+	Delete_Matrix(Row, Matrix);
+	return 0;
+}
+
+void GetFileList() {
+	FILE_SERCH fd;
+	long handle;
+	int result = 1;
+	handle = _findfirst(".\\txt\\*.*", &fd);
+
+	printf("your working directory files \n");
+
+	if (handle == -1) {
+		printf("There were no files.\n");
+		system("mkdir txt");
+		return;
+	}
+
+	while (result != -1) {
+		printf("File: %s\n", fd.name);
+		result = _findnext(handle, &fd);
+	}
+
+	_findclose(handle);
+}
+
+void Modify_Value(FILE *Fpointer, double** Matrix, int Row, int Col) {
+	float Input_Row, Input_Col;
+	int M_Row, M_Col;
+	fpos_t filepos = 0;
+
+	printf("modify mode ");
+	gotoxy(MidX - 7, MidY);
+	printf("input row and col \n");
+	Pos_Input_EH(&Input_Row, &Input_Col, Row, Col);
+	M_Row = (int)Input_Row; M_Col = (int)Input_Col;
+	gotoxy(MidX - 7, MidY + 2);
+	printf("now there is %lf ", Matrix[M_Row][M_Col]);
+	gotoxy(MidX - 13, MidY + 3);
+	printf("just input value that you want");
+	gotoxy(MidX, MidY + 4);
+	scanf_s("%lf", &Matrix[M_Row][M_Col]);
+	fsetpos(Fpointer, &filepos);
+	Print_Matrix_File(Fpointer, Matrix, Row, Col);
+	gotoxy(MidX - 8, MidY + 5);
 }
 
 void MakeMode() {
@@ -301,96 +375,37 @@ char* Make_File_Name() {
 
 	return Path;
 }
-
-////////////////////////////////////////////////////////////////////////
-void ModifyMode() {
+int ViewMode() {
 	FILE *Fpointer;
 	char * Path;
 	int Row, Col;
 
 	double **Matrix;
 
+	system("cls");
+
 	GetFileList();
 	gotoxy(MidX - 2, MidY);
 	Path = Make_File_Name();
-	fopen_s(&Fpointer, Path, "r");
-	fscanf_s(Fpointer, "%d %d\n", &Row, &Col);
-	
+	if (fopen_s(&Fpointer, Path, "r") != 0) {
+		gotoxy(MidX - 13, MidY + 2);
+		printf("there is no file make file");
+		gotoxy(MidX - 13, MidY + 3);
+		return 1;
+	}
+
+	if (fscanf_s(Fpointer, "%d %d", &Row, &Col) != 2) {
+		gotoxy(MidX - 13, MidY + 4);
+		printf("this File is damaged");
+	}
 	Matrix = Make_Matrix(Row, Col);
-	Scanf_File(Fpointer, Matrix,Row,Col);
+	Scanf_File(Fpointer, Matrix, Row, Col);
 	system("cls");
-	gotoxy(MidX - 2,0);
-	printf("%s file value:\n",Path);
+	gotoxy(MidX - 2, 0);
+	printf("%s file value:\n", Path);
 	Print_Matrix(Matrix, Row, Col);
-	gotoxy(MidX - 2, MidY);
-	Modify_Value(Fpointer,Matrix, Row, Col);
-
-
-
-
-
-
-
-	// todo
-	// 어느곳에 있는 벨류 고칠꺼냐 물보고
-	// row & col 입력하라하기
-	// 수정값받아 다시 쓰기
+	fclose(Fpointer);
+	free(Path);
+	Delete_Matrix(Row, Matrix);
+	return 0;
 }
-
-void GetFileList() {
-	FILE_SERCH fd;
-	long handle;
-	int result = 1;
-	handle = _findfirst(".\\txt\\*.*", &fd); 
-
-	if (handle == -1){
-		printf("There were no files.\n");
-		system("mkdir txt");
-		return;
-	}
-
-	while (result != -1){
-		printf("File: %s\n", fd.name);
-		result = _findnext(handle, &fd);
-	}
-
-	_findclose(handle);
-}
-
-void Modify_Value(FILE *Fpointer,double** Matrix, int Row, int Col ) {
-	int M_Row, M_Col;
-	fpos_t filepos = 0;
-
-	printf("modify mode ");
-	gotoxy(MidX - 3, MidY);
-	printf("input row and col \n");
-	Pos_Input_EH(&M_Row, &M_Col, Row, Col);
-	gotoxy(MidX - 3, MidY + 2);
-	printf("now there is %lf ", Matrix[M_Row][M_Col]);
-	gotoxy(MidX - 5, MidY + 3);
-	printf("just input value that you want");
-	gotoxy(MidX , MidY + 4);
-	scanf_s("%lf", &Matrix[M_Row][M_Col]);
-	fsetpos(Fpointer, &filepos);
-	Print_Matrix_File(Fpointer, Matrix, Row, Col);
-}
-
-/*void Modify_Mode( FILE *Fpointer, double** Matrix, int Row, int Col) {
-	int i;
-	char Modify_Dicide_Value;
-	printf("do you want to modify table???? (y / n) \n");
-	scanf_s("%c", &Modify_Dicide_Value, sizeof(char));
-
-	if (Modify_Dicide_Value == 'y' || Modify_Dicide_Value == 'Y') {
-		Modify_Value(Fpointer, Matrix);
-		Print_Matrix_File(Fpointer, Matrix, Row, Col);
-		fclose(Fpointer);
-	}
-	else if (Modify_Dicide_Value == 'n' || Modify_Dicide_Value == 'N') {
-		printf("잘가 \n");
-		Print_Matrix_File(Fpointer, Matrix, Row, Col);
-		for (i = 0; i < Row; i++) free(Matrix[i]);
-		free(Matrix);
-		fclose(Fpointer);
-	}
-}*/
