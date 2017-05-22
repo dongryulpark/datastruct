@@ -10,25 +10,22 @@
 typedef struct _finddata_t FILE_SERCH;
 
 void gotoxy(int x, int y);
-
 double** Make_Matrix(int Row, int Col);
 void Delete_Matrix(int Row, double** Matrix);
-
 void Size_Input_EH(float *Input_Row, float *Input_Col); 
 void Pos_Input_EH(float *Input_Row, float *Input_Col, int Row, int Col);
 void Value_Input_EH(double** Matrix, int i, int j);
-
 void Input_Matrix(double** Matrix, int Row, int Col);
 void Print_Matrix(double** Matrix, int Row, int Col);
 void Print_Matrix_File(FILE *Fpointer, double** Matrix, int Row, int Col);
 void Scanf_File(FILE *Fpointer, double** Matrix, int Row, int Col);
-
 int ModeSelect();
 int ModifyMode();
 void GetFileList();
 void Modify_Value(FILE *Fpointer, double** Matrix, int Row, int Col);
 void MakeMode();
 char* Make_File_Name();
+char* Make_File(int *selection);
 int ViewMode();
 
 int main(void) {
@@ -38,10 +35,12 @@ int main(void) {
 	gotoxy(MidX - 13, MidY);
 	printf("hello i'm matrix modify program");
 	gotoxy(MidX - 14 , MidY + 1);
-	printf("if you wnat to start press anykey");
-	gotoxy(MidX - 12, MidY + 2);
-	printf("if you wnat to exit press ESC");
-	gotoxy(MidX, MidY + 3);
+	printf("if you want to start press anykey");
+	gotoxy(MidX - 14, MidY + 2);
+	printf("copyright donryul Park yejin Lee");
+	gotoxy(MidX - 12, MidY + 3);
+	printf("if you want to exit press ESC");
+	gotoxy(MidX, MidY + 4);
 	if ((start = getch()) == 27) return 0;
 	system("cls");
 
@@ -92,6 +91,7 @@ double** Make_Matrix(int Row, int Col) {
 
 	Matrix = (double**)malloc(sizeof(double*) * Row);
 	for (i = 0; i < Row; i++) Matrix[i] = (double*)malloc(sizeof(double) * Col);
+
 	return Matrix;
 }
 
@@ -108,37 +108,36 @@ void Delete_Matrix(int Row, double** Matrix) {
 // Size_Input_EH(): Matrix 함수 사이즈입력시 예외처리 함수.
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Size_Input_EH(float *Input_Row, float *Input_Col) {
-	unsigned int Scanf_Return, temp, Pos = 2;
+	unsigned int Scanf_Return, temp;
 	for (; 1;) {
-		gotoxy(MidX, MidY + Pos);
+		gotoxy(MidX, MidY + 3);
 		Scanf_Return = scanf_s("%f %f", Input_Row, Input_Col);
 		while ((temp = getchar()) != EOF && temp != '\n');
 		if (Scanf_Return == 2) {
 			if (*Input_Row <= 0 || *Input_Col <= 0) {
-				Pos++;
-				gotoxy(MidX - 12, MidY + Pos);
-				printf("you must input natural number \n");
-				Pos++;
+				gotoxy(MidX - 12, MidY + 2);
+				printf("you must input natural number");
+				gotoxy(MidX , MidY + 3);
+				printf("                             ");
 				continue;
 			}
 			else if ((*Input_Row - (int)*Input_Row) != 0 || (*Input_Col - (int)*Input_Col) != 0) {
-				Pos++;
-				gotoxy(MidX - 12, MidY  + Pos);
-				printf("you must input natural number \n");
-				Pos++;
+				gotoxy(MidX - 12, MidY  + 2);
+				printf("you must input natural number");
+				gotoxy(MidX, MidY + 3);
+				printf("                             ");
 				continue;
 			}
 			else break;
 			
 		}
 		else {
-			Pos++;
-			gotoxy(MidX - 12, MidY + Pos);
-			printf("you must input natural number \n");
-			Pos++;
+			gotoxy(MidX - 12, MidY + 2);
+			printf("you must input natural number");
+			gotoxy(MidX, MidY + 3);
+			printf("                             ");
 			continue;
 		}
-		Pos++;
 	}
 }
 
@@ -147,32 +146,32 @@ void Size_Input_EH(float *Input_Row, float *Input_Col) {
 // Pos_Input_EH(): Matrix 수정 위치 입력시 예외처리 함수
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Pos_Input_EH(float *Input_Row, float *Input_Col, int Row, int Col) {
-	unsigned int Scanf_Return, temp, Pos = 1;
+	unsigned int Scanf_Return, temp;
 	
 	for (; 1;) {
-		gotoxy(MidX, MidY + Pos);
+		gotoxy(MidX, MidY + 2);
 		Scanf_Return = scanf_s("%f %f", Input_Row, Input_Col);
 		while ((temp = getchar()) != EOF && temp != '\n');
 		if (Scanf_Return == 2) {
 			if (*Input_Row <= 0 || *Input_Col <= 0) {
-				Pos++;
-				gotoxy(MidX - 10, MidY + Pos);
-				printf("you must input natural number \n");
-				Pos++;
+				gotoxy(MidX - 12, MidY + 1);
+				printf("you must input natural number");
+				gotoxy(MidX, MidY + 2);
+				printf("                             ");
 				continue;
 			}
 			else if ((*Input_Row - (int)*Input_Row) != 0 || (*Input_Col - (int)*Input_Col) != 0) {
-				Pos++;
-				gotoxy(MidX - 10, MidY + Pos);
-				printf("you must input natural number \n");
-				Pos++;
+				gotoxy(MidX - 12, MidY + 1);
+				printf("you must input natural number");
+				gotoxy(MidX, MidY + 2);
+				printf("                             ");
 				continue;
 			}
 			else if ( *Input_Row > Row || *Input_Col > Col) {
-				Pos++;
-				gotoxy(MidX - 10, MidY + Pos);
-				printf("you must input range of Matrix \n");
-				Pos++;
+				gotoxy(MidX - 12, MidY + 1);
+				printf("you must input natural number");
+				gotoxy(MidX, MidY + 2);
+				printf("                             ");
 				continue;
 			}
 			else { 
@@ -182,13 +181,12 @@ void Pos_Input_EH(float *Input_Row, float *Input_Col, int Row, int Col) {
 			}
 		}
 		else {
-			Pos++;
-			gotoxy(MidX - 12, MidY + Pos);
-			printf("you must input natural number \n");
-			Pos++;
+			gotoxy(MidX - 12, MidY + 1);
+			printf("you must input natural number");
+			gotoxy(MidX, MidY + 2);
+			printf("                             ");
 			continue;
 		}
-		Pos++;
 	}
 }
 
@@ -201,8 +199,10 @@ void Value_Input_EH(double** Matrix, int i, int j) {
 	for (; 1;) {
 		if (scanf_s("%lf", &Matrix[i][j]) != 1) {
 			while ((temp = getchar()) != EOF && temp != '\n');
-			gotoxy(MidX - 9, MidY + 2);
+			gotoxy(MidX - 12, MidY + 2);
 			printf("you must input real value");
+			gotoxy(MidX, MidY + 3);
+			printf("                         ");
 			gotoxy(MidX, MidY + 3);
 			continue;
 		}
@@ -211,7 +211,7 @@ void Value_Input_EH(double** Matrix, int i, int j) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-// Value_Input_EH(): Matrix 값 입력시 예외처리 함수
+// Input_Matrix(): Matrix 값 입력함수
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Input_Matrix(double** Matrix, int Row, int Col) {
 	int i, j, pos = 2;
@@ -225,7 +225,6 @@ void Input_Matrix(double** Matrix, int Row, int Col) {
 			gotoxy(MidX, MidY + 2);
 			
 			Value_Input_EH(Matrix, i,j);
-
 			system("cls");
 		}
 	}
@@ -255,7 +254,7 @@ void Print_Matrix(double** Matrix, int Row, int Col) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-// Print_Matrix(): FILE에 Matrix출력하기
+// Print_Matrix_File(): FILE에 Matrix출력하기
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Print_Matrix_File(FILE *Fpointer, double** Matrix, int Row, int Col){
 	int i, j;
@@ -283,8 +282,7 @@ int ModeSelect() {
 	gotoxy(MidX, MidY + 4);
 	for (; 1;) {
 		Mode = getch();
-		gotoxy(MidX - 11, MidY + 4 + pos);
-		pos++;
+		gotoxy(MidX - 11, MidY + 4 );
 		if (Mode == 27) return 4;
 		else if (Mode > 51 || Mode <= 48) {
 
@@ -316,8 +314,9 @@ int ModifyMode() {
 	}
 
 	if (fscanf_s(Fpointer, "%d %d", &Row, &Col) != 2) {
-		gotoxy(MidX - 13, MidY + 4);
+		gotoxy(MidX - 5, MidY + 2);
 		printf("this File is damaged");
+		gotoxy(MidX - 8, MidY + 3);
 		return 0;
 	}
 
@@ -393,13 +392,13 @@ void Modify_Value(FILE *Fpointer, double** Matrix, int Row, int Col) {
 ///////////////////////////////////////////////////////////////////////////////////////////
 void MakeMode() {
 	char *dir;
-	int Row, Col;
+	int Row, Col, formselect;
 	float Input_Row, Input_Col;
 	double **Matrix;
-	FILE *Fpointer;
+	FILE *Fpointer = 0;
 
 	system("cls");
-	dir = Make_File_Name();
+	dir = Make_File(&formselect);
 	system("cls");
 	gotoxy(MidX - 3, MidY);
 	printf("make mode");
@@ -414,7 +413,14 @@ void MakeMode() {
 	Input_Matrix(Matrix, Row, Col);
 
 	Print_Matrix(Matrix, Row, Col);
-	fopen_s(&Fpointer, dir, "w+");
+
+	if (formselect == 1) {
+		fopen_s(&Fpointer, dir, "w+");
+	}
+	else if (formselect == 2) {
+		fopen_s(&Fpointer, dir, "wb+");
+	}
+
 	Print_Matrix_File(Fpointer, Matrix, Row, Col);
 	fclose(Fpointer);
 	Delete_Matrix(Row, Matrix); 
@@ -426,13 +432,12 @@ void MakeMode() {
 ///////////////////////////////////////////////////////////////////////////////////////////
 char* Make_File_Name() {
 	char* FileName, *Path;
-	char txt[] = ".txt";
 	int i, FileNameSize;
 
 	FileName = (char*)malloc(sizeof(char) * 100);
 
-	gotoxy(MidX - 7, MidY);
-	printf("input file name ");
+	gotoxy(MidX - 12, MidY);
+	printf("input file name and extension");
 	gotoxy(MidX, MidY + 1);
 	scanf_s("%s", FileName, sizeof(char) * 100);
 	
@@ -444,13 +449,53 @@ char* Make_File_Name() {
 
 	Path = (char*)malloc(sizeof(char) * FileNameSize + 14);
 	strcpy_s(Path, sizeof(char) * FileNameSize + 14, ".\\txt\\");
-	strcat_s(FileName, sizeof(char) * (FileNameSize + 5), txt);
 	strcat_s(Path, sizeof(char) * (FileNameSize + 14), FileName);
 	free(FileName);
 
 	return Path;
 }
+///////////////////////////////////////////////////////////////////////////////
+// Make_File(): bin파일의 파일명과 txt파일의 파일명을 만드는 함수 
+/////////////////////////////////////////////////////////////////////////////
+char* Make_File(int *formselect) {
+	char* FileName, *Path;
+	char txt[] = ".txt", bin[] = ".bin";
+	int i, FileNameSize;
 
+	FileName = (char*)malloc(sizeof(char) * 100);
+
+	gotoxy(MidX - 7, MidY);
+	printf("select file save form");
+	gotoxy(MidX - 7, MidY + 1);
+	printf("1. txt file");
+	gotoxy(MidX - 7, MidY + 2);
+	printf("2. bin file");
+	gotoxy(MidX - 7, MidY + 3);
+	scanf_s("%d", formselect);
+	gotoxy(MidX - 7, MidY + 4);
+	printf("input file name ");
+	gotoxy(MidX, MidY + 5);
+	scanf_s("%s", FileName, sizeof(char) * 100);
+
+	for (i = 0; i < 100; i++) {
+		if (FileName[i] == '\0') break;
+	}
+
+	FileNameSize = i + 1;
+
+	Path = (char*)malloc(sizeof(char) * FileNameSize + 14);
+	strcpy_s(Path, sizeof(char) * FileNameSize + 14, ".\\txt\\");
+	if (*formselect == 1) {
+		strcat_s(FileName, sizeof(char) * (FileNameSize + 5), txt);
+		strcat_s(Path, sizeof(char) * (FileNameSize + 14), FileName);
+	}
+	else if (*formselect == 2) {
+		strcat_s(FileName, sizeof(char) * (FileNameSize + 5), bin);
+		strcat_s(Path, sizeof(char) * (FileNameSize + 14), FileName);
+	}
+	free(FileName);
+	return Path;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // ViewMode(): 시각화 모드 
@@ -475,8 +520,10 @@ int ViewMode() {
 	}
 
 	if (fscanf_s(Fpointer, "%d %d", &Row, &Col) != 2) {
-		gotoxy(MidX - 13, MidY + 4);
+		gotoxy(MidX - 5, MidY + 2);
 		printf("this File is damaged");
+		gotoxy(MidX - 7, MidY + 3);
+		return 0;
 	}
 	Matrix = Make_Matrix(Row, Col);
 	Scanf_File(Fpointer, Matrix, Row, Col);
