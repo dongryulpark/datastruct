@@ -5,6 +5,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
+
+#define midX 30
+#define midY 30
+
+const char path[30] = "";
 
 typedef struct DoublyLinkedNode {
 	long studantID;   //2015161054
@@ -24,7 +30,9 @@ typedef struct FactorOfQueue{
 } factorOfQueue;
 
 doublyLinkedNode* head; // global variable - pointer to head node.
- 
+
+void gotoxy(int x, int y);
+
 struct DoublyLinkedNode* getNewNode(int studantID, char * name, char * address);
 void insertAtHead(int studantID, char * name, char * address);
 // todo insertAtMiddle
@@ -39,9 +47,15 @@ queueNode* searchNodeByStudantId(long studantId);
 queueNode* searchNodeByName(char* name);
 queueNode* searchNodeByAddress(char* address);
 
+void loadFromFile() {}
+void saveAtFile() {}
+
+void gotoxy(int x, int y);
+void printStringAtMiddle(char* String, int YOffset);
+
 int main() {
-	/*Driver code to test the implementation*/
-	head = NULL; // empty list. set head as NULL. 
+	head = NULL; // empty list. set head as NULL.
+
 }
 
 /*doublyLinkedList functions
@@ -185,3 +199,43 @@ factorOfQueue* searchNodeByAddress(char* address) {
 	return fQ;
 }
 
+/*file functions
+*create by dongryulpark
+*/
+void loadFromFile() {
+	FILE *Fpointer;
+
+	if (fopen_s(&Fpointer, Path, "r") != 0) {
+		gotoxy(MidX - 13, MidY + 2);
+		printf("there is no file in dir");
+		gotoxy(MidX - 13, MidY + 3);
+		return 1;
+	}
+
+	if (fscanf_s(Fpointer, "%d %d", &Row, &Col) != 2) {
+		gotoxy(MidX - 5, MidY + 2);
+		printf("this File is damaged");
+		gotoxy(MidX - 7, MidY + 3);
+		return 0;
+	}
+
+}
+void saveAtFile() {
+
+}
+
+/*interface functions
+* create by dongryulpark
+*/
+
+void gotoxy(int x, int y) {
+	COORD Pos = { x - 1, y - 1 };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+}
+
+void printStringAtMiddle(char* String,int YOffset) {
+	int XOffset = (strlen(String) / 2);
+
+	gotoxy(midX - XOffset, midY - YOffset);
+	puts(String);
+}
