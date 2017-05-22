@@ -1,7 +1,3 @@
-
-//doubly linkedlist address book
-//i use github code 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,7 +6,26 @@
 #define midX 30
 #define midY 30
 
-const char path[30] = "";
+// todo 
+// doubly linked list studant address book make
+// bin file과 real time으로 통신하면서 DB를 구현한다.
+// 1) 입력
+//	esc로 중간 탈주 
+// 2) 수정
+//	검색 후 수정
+//	esc로 중간 탈주 
+// 3) 삭제
+//	검색 후 삭제
+//	esc로 중간 탈주 
+// 4) search V
+// queue를 이용해 구현 완료
+// 5) 출력
+//	콘솔창의 크기를 정하자
+//	넘어가면 방향키를 입력받아 넘어가면서 보게 하고 esc로 나가게 한다.
+// 6) 파일저장 V
+//	realtime으로 자동적으로 저장이 된다.
+
+const char path[30] = ".\\txt\\DB.bin";
 
 typedef struct DoublyLinkedNode {
 	long studantID;   //2015161054
@@ -55,7 +70,6 @@ void printStringAtMiddle(char* String, int YOffset);
 
 int main() {
 	head = NULL; // empty list. set head as NULL.
-
 }
 
 /*doublyLinkedList functions
@@ -103,7 +117,7 @@ void forwardPrint() {
 	struct DoublyLinkedNode* temp = head;
 	printf("Forward: \n");
 	while (temp != NULL) {
-		printf("%d ", temp->studantID);
+		printf("%8ld ", temp->studantID);
 		printf("%s ", temp->name);
 		printf("%s ", temp->address);
 		printf("\n");
@@ -122,7 +136,7 @@ void reversePrint() {
 	// Traversing backward using prev pointer
 	printf("Reverse: \n");
 	while (temp != NULL) {
-		printf("%d ", temp->studantID);
+		printf("%8ld ", temp->studantID);
 		printf("%s ", temp->name);
 		printf("%s ", temp->address);
 		printf("\n");
@@ -202,30 +216,38 @@ factorOfQueue* searchNodeByAddress(char* address) {
 /*file functions
 *create by dongryulpark
 */
+
 void loadFromFile() {
-	FILE *Fpointer;
+	FILE *filePointer;
 
-	if (fopen_s(&Fpointer, Path, "r") != 0) {
-		gotoxy(MidX - 13, MidY + 2);
-		printf("there is no file in dir");
-		gotoxy(MidX - 13, MidY + 3);
-		return 1;
+	if (fopen_s(&filePointer, path, "r") != 0) {
+		printStringAtMiddle("there is no file in dir", 0);
+		return;
 	}
-
-	if (fscanf_s(Fpointer, "%d %d", &Row, &Col) != 2) {
-		gotoxy(MidX - 5, MidY + 2);
-		printf("this File is damaged");
-		gotoxy(MidX - 7, MidY + 3);
-		return 0;
-	}
+	// todo load code작성
 
 }
-void saveAtFile() {
 
+void saveAtFile() {
+	FILE * filePointer;
+	doublyLinkedNode* temp = head;
+
+	if (fopen_s(&filePointer, path, "wb") != 0) {
+		printStringAtMiddle("there is no file in dir", 0);
+		return;
+	}
+	
+	while (temp != NULL) {
+		fprintf(filePointer, "%8ld ", temp->studantID);
+		fprintf(filePointer, "%s ", temp->name);
+		fprintf(filePointer, "%s ", temp->address);
+		fprintf(filePointer, "\n");
+		temp = temp->next;
+	}
 }
 
 /*interface functions
-* create by dongryulpark
+* create by dongRyulPark
 */
 
 void gotoxy(int x, int y) {
@@ -239,3 +261,4 @@ void printStringAtMiddle(char* String,int YOffset) {
 	gotoxy(midX - XOffset, midY - YOffset);
 	puts(String);
 }
+
