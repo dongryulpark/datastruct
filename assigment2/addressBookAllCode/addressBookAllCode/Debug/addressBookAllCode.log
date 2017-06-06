@@ -1,0 +1,5 @@
+﻿  main.c
+c:\users\phyon\documents\git\datastruct\assigment2\addressbookallcode\addressbookallcode\main.c(94): warning C4013: 'gets'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+c:\users\phyon\documents\git\datastruct\assigment2\addressbookallcode\addressbookallcode\main.c(256): warning C4013: 'getch'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+  addressBookAllCode.vcxproj -> C:\Users\phyon\Documents\git\datastruct\assigment2\addressBookAllCode\Debug\addressBookAllCode.exe
+  addressBookAllCode.vcxproj -> C:\Users\phyon\Documents\git\datastruct\assigment2\addressBookAllCode\Debug\addressBookAllCode.pdb (Partial PDB)

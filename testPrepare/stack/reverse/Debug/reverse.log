@@ -1,0 +1,5 @@
+﻿  reverse.c
+c:\users\phyon\documents\git\datastruct\testprepare\stack\reverse\reverse.c(159): warning C4098: 'reverse': 'void' 함수에서 값을 반환하고 있습니다.
+c:\users\phyon\documents\git\datastruct\testprepare\stack\reverse\reverse.c(41): warning C4172: 지역 변수 또는 임시: item의 주소를 반환하고 있습니다.
+  reverse.vcxproj -> C:\Users\phyon\Documents\git\datastruct\testPrepare\stack\Debug\reverse.exe
+  reverse.vcxproj -> C:\Users\phyon\Documents\git\datastruct\testPrepare\stack\Debug\reverse.pdb (Partial PDB)

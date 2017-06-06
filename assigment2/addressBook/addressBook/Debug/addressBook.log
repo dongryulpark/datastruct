@@ -1,0 +1,5 @@
+﻿  interface.c
+c:\users\phyon\documents\git\datastruct\assigment2\addressbook\addressbook\interface.c(12): warning C4013: 'puts'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+c:\users\phyon\documents\git\datastruct\assigment2\addressbook\addressbook\interface.c(22): warning C4013: 'getch'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+  addressBook.vcxproj -> C:\Users\phyon\Documents\git\datastruct\assigment2\addressBook\Debug\addressBook.exe
+  addressBook.vcxproj -> C:\Users\phyon\Documents\git\datastruct\assigment2\addressBook\Debug\addressBook.pdb (Partial PDB)
