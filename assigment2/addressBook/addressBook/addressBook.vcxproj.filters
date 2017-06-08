@@ -18,24 +18,24 @@
     <ClCompile Include="main.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="interface.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="doublylinkedlist.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="queue.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="7thIO.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="interface.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="doublylinkedlist.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="queue.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="7thIO.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

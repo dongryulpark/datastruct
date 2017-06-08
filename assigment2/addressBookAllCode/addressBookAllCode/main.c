@@ -267,6 +267,8 @@ void printMenu() {
 	printStringAtMiddle("7 end   ", 6);
 	setCursorAtMiddle(7);
 }
+
+
 int scanMenu() {
 	int formValidatior;
 	char buffer[100];

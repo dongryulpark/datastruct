@@ -1,8 +1,8 @@
 #ifndef _QUEUE_H_
 #define _QUEUE_H_
 
+#include <malloc.h>
 #include "doublylinkedlist.h"
-#define NULL '\0'
 
 typedef struct QueueNode {
 	doublyLinkedNode* dataNode;

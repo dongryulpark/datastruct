@@ -110,14 +110,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="7thIO.c" />
     <ClCompile Include="doublylinkedlist.c" />
-    <ClCompile Include="interface.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="queue.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="7thIO.h" />
     <ClInclude Include="doublylinkedlist.h" />
-    <ClInclude Include="interface.h" />
     <ClInclude Include="queue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -18,8 +18,6 @@ doublyLinkedNode* head;
 struct DoublyLinkedNode* getNewNode(char* studantID, char* name, char* sex, char* contact, char* address);
 void insertAtHead(char* studantID, char* name, char* sex, char* contact, char* address);
 void insertAtTail(char* studantID, char* name, char* sex, char* contact, char* address);
-void forwardPrint();
-void reversePrint();
 
 
 #endif // !_DOUBLYLINKEDLIST_H_
