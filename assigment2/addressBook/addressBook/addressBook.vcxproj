@@ -110,15 +110,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="7thIO.c" />
+    <ClCompile Include="console.c" />
     <ClCompile Include="doublylinkedlist.c" />
+    <ClCompile Include="inputmode.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="printmode.c" />
     <ClCompile Include="queue.c" />
+    <ClCompile Include="savemode.c" />
+    <ClCompile Include="searchmode.c" />
+    <ClCompile Include="util.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="7thIO.h" />
+    <ClInclude Include="console.h" />
     <ClInclude Include="doublylinkedlist.h" />
+    <ClInclude Include="inputmode.h" />
+    <ClInclude Include="printmode.h" />
     <ClInclude Include="queue.h" />
+    <ClInclude Include="savemode.h" />
+    <ClInclude Include="searchmode.h" />
+    <ClInclude Include="util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

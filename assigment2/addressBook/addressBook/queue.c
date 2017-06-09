@@ -21,3 +21,15 @@ void getNewQueueNode(factorOfQueue* fQ, doublyLinkedNode* dataNode) {
 		fQ->rear = newNode;
 	}
 }
+
+int printQueue(factorOfQueue* fQ) {
+	int offsetY = 0;
+	queueNode* temp = fQ->front;
+	while (temp) {
+		printOneDoublyLinkedListNode(temp->dataNode);
+		temp = temp->link;
+		offsetY++;
+	}
+	return offsetY;
+}
+

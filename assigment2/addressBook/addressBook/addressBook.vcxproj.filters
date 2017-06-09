@@ -24,7 +24,22 @@
     <ClCompile Include="queue.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="7thIO.c">
+    <ClCompile Include="console.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="inputmode.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="printmode.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="util.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="savemode.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="searchmode.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +50,22 @@
     <ClInclude Include="queue.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="7thIO.h">
+    <ClInclude Include="console.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inputmode.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="printmode.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="savemode.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="searchmode.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

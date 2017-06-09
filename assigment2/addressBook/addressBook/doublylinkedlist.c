@@ -37,3 +37,12 @@ void insertAtTail(char* studantID, char* name, char* sex, char* contact, char* a
 	temp->next = newNode;
 	newNode->prev = temp;
 }
+
+void printOneDoublyLinkedListNode(doublyLinkedNode* dataNode) {
+	printf("%s ", dataNode->studantID);
+	printf("%s ", dataNode->name);
+	printf("%s ", dataNode->sex);
+	printf("%s ", dataNode->contact);
+	printf("%s ", dataNode->address);
+	printf("\n");
+}

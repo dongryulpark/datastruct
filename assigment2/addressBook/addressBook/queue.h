@@ -2,6 +2,7 @@
 #define _QUEUE_H_
 
 #include <malloc.h>
+
 #include "doublylinkedlist.h"
 
 typedef struct QueueNode {
@@ -15,6 +16,7 @@ typedef struct FactorOfQueue {
 
 factorOfQueue* getNewQueue();
 void getNewQueueNode(factorOfQueue* fQ, doublyLinkedNode* dataNode);
+int printQueue(factorOfQueue* fQ);
 
 #endif // !_QUEUE_H_
 

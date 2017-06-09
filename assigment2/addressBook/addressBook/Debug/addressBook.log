@@ -1,2 +1,3 @@
 ﻿  main.c
-LINK : fatal error LNK1168: C:\Users\phyon\Documents\git\datastruct\assigment2\addressBook\Debug\addressBook.exe을(를) 쓰기용으로 열 수 없습니다.
+  addressBook.vcxproj -> C:\Users\phyon\Documents\git\datastruct\assigment2\addressBook\Debug\addressBook.exe
+  addressBook.vcxproj -> C:\Users\phyon\Documents\git\datastruct\assigment2\addressBook\Debug\addressBook.pdb (Partial PDB)
