@@ -10,19 +10,21 @@
 #include "printmode.h"
 #include "searchmode.h"
 
+
 /*
 todo
 modify구현
-
 file 처리 
-	save to file 위치 지정
 	load from 구현 
-sort 구현 dksgo dksgo dksgo
 */
+
 
 void printMenu();
 int scanMenu();
 
+void loadFromFile();
+char* calculateEachStringSize(char* leadString);
+char* calculateEachAddressSize(char* leadString);
 //todo modify각함수 구현
 void modifyMode();
 void printModifyMenu();
@@ -40,6 +42,7 @@ int main() {
 	system("mode con:cols=100 lines=40");
 
 	printCyperight();
+	loadFromFile();
 	while (1) {
 		printMenu();
 		selectedMenu = scanMenu();
@@ -96,6 +99,71 @@ int scanMenu() {
 	}
 	system("cls");
 	return buffer[0] - 48;
+}
+
+void loadFromFile() {
+	FILE* filePointer;
+	char* studentID = NULL, *name = NULL, *sex = NULL, *contact = NULL, *address = NULL;
+	const char path[30] = ".\\bin\\DB.txt";
+	char buffer[100];
+	int nFileSize;
+	//fopen_s(&filePointer, path, "r");
+	//fseek(filePointer, 0L, SEEK_END);
+	//nFileSize = ftell(filePointer);
+	
+
+
+	if (fopen_s(&filePointer, path, "r") != 0) {
+		printStringAtMiddle("there is no file in dir", 0);
+		setCursorAtMiddle(1);
+		_getch();
+		return;
+	}
+	
+	else {
+		while (!feof(filePointer)) {
+			fscanf_s(filePointer, "%s ", buffer, sizeof(buffer));
+			studentID = calculateEachStringSize(buffer);
+			fscanf_s(filePointer, "%s ", buffer, sizeof(buffer));
+			name = calculateEachStringSize(buffer);
+			fscanf_s(filePointer, "%s ", buffer, sizeof(buffer));
+			sex = calculateEachStringSize(buffer);
+			fscanf_s(filePointer, "%s ", buffer, sizeof(buffer));
+			contact = calculateEachStringSize(buffer);
+			fgets(buffer, sizeof(buffer), filePointer);
+			address = calculateEachAddressSize(buffer);
+			insertAtTail(studentID, name, sex, contact, address);
+		}
+	}
+	
+	fclose(filePointer);
+
+}
+
+char* calculateEachStringSize(char* leadString) {
+	int length, j;
+	char* eachString = NULL;
+	length = strlen(leadString);
+
+	eachString = (char*)malloc( sizeof(char)*(length ) );
+	
+	for (j = 0; j < length; j++)
+		eachString[j] = leadString[j];
+	eachString[length] = '\0';
+	return eachString;
+}
+
+char* calculateEachAddressSize(char* leadString) {
+	int length, j;
+	char* eachString = NULL;
+	length = strlen(leadString);
+
+	eachString = (char*)malloc(sizeof(char)*(length + 1));
+
+	for (j = 0; j < length - 1; j++)
+		eachString[j] = leadString[j];
+	eachString[length - 1] = '\0';
+	return eachString;
 }
 
 void modifyMode() {
@@ -165,10 +233,6 @@ void modifyByStudantId() {
 	if (queueNum != 0) 
 		offsetY = printQueue(fQ);
 
-	
-	if (strlen(inputStudantId) != 10) {
-		
-	}
 }
 
 void modifyByName() {

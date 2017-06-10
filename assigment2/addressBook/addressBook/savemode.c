@@ -1,7 +1,5 @@
 #include "savemode.h"
 
-const char path[30] = ".\\bin\\DB.txt";
-
 void saveMode() {
 	printSaveMenu();
 	if (!scanSaveMenu()) {
@@ -57,6 +55,7 @@ void printSaveProcess() {
 void saveAtFile() {
 	FILE * filePointer;
 	doublyLinkedNode* temp = head;
+	const char path[30] = ".\\bin\\DB.txt";
 
 	if (fopen_s(&filePointer, path, "w") != 0) {
 		printStringAtMiddle("there is no file in dir", 0);
@@ -73,15 +72,4 @@ void saveAtFile() {
 		temp = temp->next;
 	}
 
-}
-
-void loadFromFile() {
-	FILE *filePointer;
-
-	if (fopen_s(&filePointer, path, "r") != 0) {
-		printStringAtMiddle("there is no file in dir", 0);
-		return;
-	}
-
-	//fgets(temp);
 }

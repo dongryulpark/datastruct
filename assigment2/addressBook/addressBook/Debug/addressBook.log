@@ -1,3 +1,4 @@
 ﻿  main.c
+c:\users\phyon\documents\git\datastruct\assigment2\addressbook\addressbook\main.c(109): warning C4101: 'nFileSize' :참조되지 않은 지역 변수입니다.
   addressBook.vcxproj -> C:\Users\phyon\Documents\git\datastruct\assigment2\addressBook\Debug\addressBook.exe
   addressBook.vcxproj -> C:\Users\phyon\Documents\git\datastruct\assigment2\addressBook\Debug\addressBook.pdb (Partial PDB)
